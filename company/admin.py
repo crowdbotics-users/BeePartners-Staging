@@ -16,3 +16,4 @@ class CompanyAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(CompanyStages)
