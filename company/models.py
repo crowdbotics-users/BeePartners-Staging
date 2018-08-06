@@ -31,3 +31,17 @@ def before_save(sender, instance, *args, **kwargs):
         time_spend = (current_timestamp - previous_timestamp).seconds
         sender.objects.filter(id=previous_record[0].id).update(TIME_SPEND=time_spend)
 
+
+class CompanyStages(models.Model):
+    COMPANY_ID = models.ForeignKey(Company, related_name='company_id', on_delete=models.CASCADE, null=True)
+    START_TIME = models.DateTimeField(blank=True, null=True)
+    END_TIME = models.DateTimeField(blank=True, null=True)
+    STAGE_CODE = models.CharField(max_length=255, blank=True, null=True)
+    STAGE_DESC = models.CharField(max_length=255, blank=True, null=True)
+    TIME_SPEND = models.IntegerField(null=True)
+
+    def __str__(self):
+        return str(self.STAGE_CODE)
+
+    class Meta:
+        db_table = "company_stages"
