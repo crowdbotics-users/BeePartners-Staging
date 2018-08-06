@@ -11,6 +11,7 @@ class Company(models.Model):
     STAGE_CODE = models.CharField(max_length=255, blank=True, null=True)
     STAGE_DESC = models.CharField(max_length=255, blank=True, null=True)
     USER_CODE = models.IntegerField(null=True)
+    TIME_SPEND = models.IntegerField(null=True)
     NOTES = models.TextField(null=True)
     PW_LINK = models.CharField(max_length=255, blank=True, null=True)
 
@@ -19,4 +20,14 @@ class Company(models.Model):
 
     class Meta:
         db_table = "companies"
+
+
+@receiver(pre_save, sender=Company)
+def before_save(sender, instance, *args, **kwargs):
+    previous_record = sender.objects.filter(COMPANY=instance.COMPANY).order_by('-TIMESTAMP')
+    if previous_record:
+        current_timestamp = instance.TIMESTAMP
+        previous_timestamp = previous_record[0].TIMESTAMP
+        time_spend = (current_timestamp - previous_timestamp).seconds
+        sender.objects.filter(id=previous_record[0].id).update(TIME_SPEND=time_spend)
 
