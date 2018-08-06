@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-
+import datetime
+import pytz
 
 class Company(models.Model):
     COMPANY = models.CharField(max_length=255, blank=True, null=True)
@@ -26,7 +27,7 @@ class Company(models.Model):
 def before_save(sender, instance, *args, **kwargs):
     previous_record = sender.objects.filter(COMPANY=instance.COMPANY).order_by('-TIMESTAMP')
     if previous_record:
-        current_timestamp = instance.TIMESTAMP
+        current_timestamp = pytz.utc.localize(instance.TIMESTAMP)
         previous_timestamp = previous_record[0].TIMESTAMP
         time_spend = (current_timestamp - previous_timestamp).seconds
         sender.objects.filter(id=previous_record[0].id).update(TIME_SPEND=time_spend)
