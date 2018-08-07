@@ -39,7 +39,8 @@ def after_save(sender, instance, *args, **kwargs):
         start_time = pytz.utc.localize(instance.TIMESTAMP)
         any_company_stages = CompanyStages.objects.filter(COMPANY_NAME=instance.COMPANY).order_by('-START_TIME')
         if any_company_stages:
-            CompanyStages.objects.filter(id=any_company_stages[0].id).update(END_TIME=start_time)
+            time_spend = (start_time - any_company_stages[0].START_TIME).seconds
+            CompanyStages.objects.filter(id=any_company_stages[0].id).update(END_TIME=start_time, TIME_SPEND=time_spend)
 
 
         CompanyStages.objects.create(
