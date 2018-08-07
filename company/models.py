@@ -37,12 +37,19 @@ def after_save(sender, instance, *args, **kwargs):
     company_stages = CompanyStages.objects.filter(COMPANY_NAME=instance.COMPANY,STAGE_CODE=instance.STAGE_CODE)
     if not company_stages:
         start_time = pytz.utc.localize(instance.TIMESTAMP)
+        any_company_stages = CompanyStages.objects.filter(COMPANY_NAME=instance.COMPANY).order_by('-START_TIME')
+        if any_company_stages:
+            CompanyStages.objects.filter(id=any_company_stages[0].id).update(END_TIME=start_time)
+
+
         CompanyStages.objects.create(
             COMPANY_NAME=instance.COMPANY,
             START_TIME=start_time,
             STAGE_CODE=instance.STAGE_CODE,
             STAGE_DESC=instance.STAGE_DESC
         )
+    else:
+        pass
 
 
 class CompanyStages(models.Model):
