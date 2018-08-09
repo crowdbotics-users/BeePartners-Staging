@@ -73,7 +73,7 @@
 	<div class="col-lg-12 col-md-12 col-sm-12">
 
 	  <div class="container-fluid mt-3">
-		  <button type="button" class="btn btn-primary dealflow-btn" data-toggle="collapse" data-target="#demo"><img class="drp-arw" src="{% static 'img/arrow.png' %}"> Dealflow Metrics</button>
+		  <button type="button" aria-expanded="true" class="btn btn-primary dealflow-btn" data-toggle="collapse" data-target="#demo"><img class="drp-arw" src="{% static 'img/arrow.png' %}"> Dealflow Metrics</button>
 
 		   <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 		      THROUGHPUT: 12 DAYS 
@@ -94,44 +94,21 @@
 		  <div id="demo" class="collapse mt-3">
 			    <table class="table table-striped">
 				    <thead>
-				      <tr>
+                      <tr>
 				        <th>DEADFLOW STAGE</th>
 				        <th>COUNT</th>
 				        <th>AVG DAYS</th>
 				      </tr>
 				    </thead>
 				    <tbody>
-				      <tr>
-				        <td>New</td>
-				        <td>81</td>
-				        <td>20</td>
-				      </tr>
-				      <tr>
-				        <td>New Interest</td>
-				        <td>15</td>
-				        <td>12</td>
-				      </tr>
-				      <tr>
-				        <td>On hold</td>
-				        <td>20</td>
-				        <td></td>
-				      </tr>
-				      <tr>
-				        <td>New</td>
-				        <td>81</td>
-				        <td>20</td>
-				      </tr>
-				      <tr>
-				        <td>New Interest</td>
-				        <td>15</td>
-				        <td>12</td>
-				      </tr>
-				      <tr>
-				        <td>On hold</td>
-				        <td>20</td>
-				        <td></td>
-				      </tr>
-				    </tbody>
+				        {% for stage in stage_count %}
+                            <tr>
+                                <td>{{ stage.STAGE_DESC }}</td>
+                                <td>{{ stage.dcount }}</td>
+                                <td>20</td>
+                              </tr>
+                        {% endfor %}
+                    </tbody>
 				  </table>
 		  </div>
 
