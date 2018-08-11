@@ -209,19 +209,18 @@
         .transTime(750) // length of transitions in ms
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
-        .variable('prob')
-        .category('species');
+        .variable('Percent')
+        .category('STAGE_DESC');
 
     var i = 0;
 
-    d3.tsv('static/species.tsv', function(error, data) {
+    d3.json("{% url "get_stage_percent" %}", function(error, data) {
         if (error) throw error;
 
         // group entries together by timestamp to simulate  receiving real-time data
         var nestData = d3.nest()
-            .key(function(d) { return d.time; }) // collects entries with the same time value
+            .key(function(d) { return 1; }) // collects entries with the same time value
             .entries(data);
-
         // timer to update chart with new data every timeInterval milliseconds.
         var timer = setInterval(function() {
         	if (i === nestData.length - 1) { clearInterval(timer); }

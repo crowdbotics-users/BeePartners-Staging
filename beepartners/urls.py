@@ -21,5 +21,6 @@ from company import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.Dashboard.as_view(), name='company'),
+    url(r'^get_stage_percent', views.get_stage_percent, name='get_stage_percent'),
 
 ]
